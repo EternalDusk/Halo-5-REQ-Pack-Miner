@@ -10,9 +10,9 @@ init(autoreset=True)
 
 #==INPUTS==
 #microsoft email
-email = 
+email = ""
 #microsoft password
-password = 
+password = ""
 #==========
 
 
@@ -30,6 +30,14 @@ def enter_info(name, xpath, sent):
     name.send_keys(sent)
     
     time.sleep(1)
+    
+def enter_private_info(name, xpath, sent):
+    print(Fore.YELLOW + "Sent: info to " + name)
+    name = browser.find_element_by_xpath(xpath)
+    name.clear()
+    name.send_keys(sent)
+    
+    time.sleep(1)
 
 
 
@@ -37,8 +45,6 @@ def enter_info(name, xpath, sent):
 browser = webdriver.Chrome(executable_path=r"chromedriver.exe")
 
 browser.get("https://www.halowaypoint.com/en-us")
-#let website load
-time.sleep(3)
 
 
 #==LOGGING IN==
@@ -46,12 +52,12 @@ time.sleep(3)
 click_button("Sign In", "/html/body/div[2]/header/div/div/div/a[2]")
 
 #enter sign in info
-enter_info("email", "/html/body/div/form[1]/div/div/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/div[2]/div[2]/div/input[1]", email)
+enter_private_info("email", "/html/body/div/form[1]/div/div/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/div[2]/div[2]/div/input[1]", email)
 #press next
 click_button("submit", "/html/body/div/form[1]/div/div/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/div[4]/div/div/div/div/input")
 
 #enter password
-enter_info("password", "/html/body/div/form[1]/div/div/div[2]/div/div/div[2]/div[2]/div[2]/div/div[2]/div/div[2]/div/div[2]/input", password)
+enter_private_info("password", "/html/body/div/form[1]/div/div/div[2]/div/div/div[2]/div[2]/div[2]/div/div[2]/div/div[2]/div/div[2]/input", password)
 #press login
 click_button("submit", "/html/body/div/form[1]/div/div/div[2]/div/div/div[2]/div[2]/div[2]/div/div[2]/div/div[3]/div[2]/div/div/div/div/input")
 #==============
@@ -76,7 +82,7 @@ try:
     #close window
     click_button("Close", "/html/body/div[3]/div/div/div/button")
 except:
-    print(Fore.RED + "REQ CLAIM FAILED")
+    print(Fore.RED + "No daily REQ Pack found")
 #===================
 
 
@@ -101,13 +107,17 @@ print(Fore.BLUE + "Number of REQs found: " + str(len(reqs_owned)))
 for i in reqs_owned:
     print(i)
     i.click()
+    time.sleep(0.5)
     weapon_sold = browser.find_element_by_xpath("/html/body/div[3]/div/div/div/div/div/div[2]/div[1]").text
-    print(Fore.GREEN + "Selling REQ: " + weapon_sold)
-    time.sleep(1)
-    click_button("Sell Card", "/html/body/div[3]/div/div/div/div/div/div[2]/div[3]/button")
-    time.sleep(1)
-    click_button("Yes", "/html/body/div[4]/div/div/div/div/footer/div/ul/li[1]/button")
-    time.sleep(1)
+    weapon_amt = browser.find_element_by_xpath("/html/body/div[3]/div/div/div/div/div/div[1]/div/div").text
+    while(str(weapon_amt) != "x0"):
+        print("Selling REQ: " + Fore.GREEN + weapon_sold)
+        time.sleep(1)
+        click_button("Sell Card", "/html/body/div[3]/div/div/div/div/div/div[2]/div[3]/button")
+        time.sleep(1)
+        click_button("Yes", "/html/body/div[4]/div/div/div/div/footer/div/ul/li[1]/button")
+        time.sleep(1)
+        weapon_amt = browser.find_element_by_xpath("/html/body/div[3]/div/div/div/div/div/div[1]/div/div").text
     click_button("Close", "/html/body/div[3]/div/div/div/button")
 
 
@@ -130,13 +140,17 @@ print(Fore.BLUE + "Number of REQs found: " + str(len(reqs_owned)))
 for i in reqs_owned:
     print(i)
     i.click()
+    time.sleep(0.5)
     req_sold = browser.find_element_by_xpath("/html/body/div[3]/div/div/div/div/div/div[2]/div[1]").text
-    print(Fore.GREEN + "Selling REQ: " + req_sold)
-    time.sleep(1)
-    click_button("Sell Card", "/html/body/div[3]/div/div/div/div/div/div[2]/div[3]/button")
-    time.sleep(1)
-    click_button("Yes", "/html/body/div[4]/div/div/div/div/footer/div/ul/li[1]/button")
-    time.sleep(1)
+    req_amount = browser.find_element_by_xpath("/html/body/div[3]/div/div/div/div/div/div[1]/div/div").text
+    while (str(req_amount) != "x0"):
+        print("Selling REQ: " + Fore.GREEN + req_sold)
+        time.sleep(1)
+        click_button("Sell Card", "/html/body/div[3]/div/div/div/div/div/div[2]/div[3]/button")
+        time.sleep(1)
+        click_button("Yes", "/html/body/div[4]/div/div/div/div/footer/div/ul/li[1]/button")
+        time.sleep(1)
+        req_amount = browser.find_element_by_xpath("/html/body/div[3]/div/div/div/div/div/div[1]/div/div").text
     click_button("Close", "/html/body/div[3]/div/div/div/button")
 #=============
 
