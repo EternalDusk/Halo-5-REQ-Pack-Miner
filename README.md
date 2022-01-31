@@ -1,4 +1,4 @@
-# Halo-REQ-Pack-Miner
+# Halo-5-REQ-Pack-Miner
 Automatically claims Daily REQ packs and sells all boosts, weapons, and vehicles
 
 To Do
